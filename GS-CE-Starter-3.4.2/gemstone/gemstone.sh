@@ -24,8 +24,9 @@ trap 'kill ${!}; my_handler' SIGUSR1
 trap 'kill ${!}; term_handler' SIGTERM
 
 # run application
-startnetldi -g -a gsadmin -P 50377 -n -N
+startnetldi -g -a gemstone -P 50377 -n -N
 startstone -e $GEMSTONE_EXE_CONF -l $GEMSTONE_LOG -z $GEMSTONE_SYS_CONF
+gslist -cvl
 
 # wait for <Ctrl>+<C>
 tail -f /dev/null

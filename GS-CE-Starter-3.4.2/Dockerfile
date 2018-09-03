@@ -1,10 +1,8 @@
-# use an official Ubuntu image as a parent
+
 FROM ubuntu:18.04
 
-# https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b
 RUN groupadd -g 999 gemstone && useradd -r -u 999 -g gemstone gemstone
-COPY --chown=gemstone:gemstone gemstone/ /opt/gemstone/
-COPY --chown=gemstone:gemstone GemStone64Bit3.4.2-x86_64.Linux/ /opt/gemstone/product/
+COPY --chown=gemstone:gemstone ./ /opt/gemstone/
 USER gemstone:gemstone
 WORKDIR /opt/gemstone
 
@@ -18,6 +16,6 @@ ENV GEMSTONE=/opt/gemstone/product \
 	GEMSTONE_GLOBAL_DIR=/opt/gemstone \
 	GS_FORCE_CLEAN_LOG_FILE_DELETE=true
 
-LABEL Description="Basic development install of GemStone/S 64 Bit"
+LABEL Description="GemStone/S 64 Bit--Community Edition: Starter--3.4.2"
 EXPOSE 50377
 CMD ["/opt/gemstone/gemstone.sh"]
