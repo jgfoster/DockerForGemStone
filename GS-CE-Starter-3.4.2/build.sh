@@ -22,4 +22,3 @@ if [ ! -f gemstone/data/extent0.dbf ]; then
 	cp gemstone/product/bin/extent0.dbf gemstone/data
 	chmod +w gemstone/data/extent0.dbf
 fi
-docker build -f Dockerfile -t gs342 gemstone

@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
-# inspired by https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86
+# based on https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86
+# see also https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example
 
 set -x
 
 # SIGUSR1-handler
 my_handler() {
-  echo "my_handler"
+  echo 'my_handler'
 }
 
 # SIGTERM-handler
 term_handler() {
-  echo "term_handler"
+  echo 'term_handler'
   stopnetldi
   stopstone -i gs64stone DataCurator swordfish
   exit 143; # 128 + 15 -- SIGTERM
@@ -23,11 +24,13 @@ term_handler() {
 trap 'kill ${!}; my_handler' SIGUSR1
 trap 'kill ${!}; term_handler' SIGTERM
 
-# run application
+# start GemStone services
 startnetldi -g -a gemstone -P 50377 -n -N
 startstone -e $GEMSTONE_EXE_CONF -l $GEMSTONE_LOG -z $GEMSTONE_SYS_CONF
-gslist -cvl
 
-# wait for <Ctrl>+<C>
-tail -f /dev/null
-term_handler()
+gslist -cvl			# list GemStone servers
+# wait forever
+while true
+do
+  tail -f /dev/null & wait ${!}
+done
