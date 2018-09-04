@@ -19,3 +19,11 @@ docker push username/repository:tag            # Upload tagged image to registry
 docker run username/repository:tag                   # Run image from a registry
 
 docker exec -it container bash
+
+## gs-jupyter-342
+
+docker container ls -a && echo && docker image ls
+docker rmi -f image
+make build
+docker run --rm -it jgfoster/gs-jupyter-342 bash
+docker run --rm --name jupyter -p 8888:8888 -p 50377:50377 jgfoster/gs-jupyter-342
