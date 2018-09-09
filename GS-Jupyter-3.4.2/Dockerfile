@@ -26,7 +26,7 @@ ENV SHELL=/bin/bash \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     GEMSTONE_GLOBAL_DIR=/opt/gemstone
-ENV HOME=/home/$GS_USER \
+ENV GS_HOME=/home/$GS_USER \
 	GEMSTONE=$GEMSTONE_GLOBAL_DIR/product
 ENV	PATH=$GEMSTONE/bin:$PATH \
 	GEMSTONE_EXE_CONF=$GEMSTONE_GLOBAL_DIR/conf \
@@ -36,8 +36,7 @@ ENV	PATH=$GEMSTONE/bin:$PATH \
 	GEMSTONE_LOG=$GEMSTONE_GLOBAL_DIR/log/gs64stone.log \
 	GS_FORCE_CLEAN_LOG_FILE_DELETE=true
 
-RUN groupadd wheel -g 11 && \
-    echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
+RUN echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
     useradd -m -s /bin/bash -N -u $GS_UID $GS_USER && \
     mkdir -p $GEMSTONE && \
     chown $GS_USER:$GS_GID $GEMSTONE_GLOBAL_DIR && \
@@ -47,18 +46,20 @@ WORKDIR $GEMSTONE_GLOBAL_DIR
 
 # it seems that the copy command does not recognize environment variables
 # copy in order of least likely to change (and size)
-COPY --chown=gemstone:users ./product $GEMSTONE_GLOBAL_DIR/product
-COPY --chown=gemstone:users ./data $GEMSTONE_GLOBAL_DIR/data
-COPY --chown=gemstone:users ./conf $GEMSTONE_GLOBAL_DIR/conf
-COPY --chown=gemstone:users ./locks $GEMSTONE_GLOBAL_DIR/locks
-COPY --chown=gemstone:users ./log $GEMSTONE_GLOBAL_DIR/log
-COPY --chown=jovyan:users ./topaz_kernel $HOME/topaz_kernel
-COPY --chown=jovyan:users ./gemstone.sh $HOME/gemstone.sh
+COPY --chown=gemstone:users ./product/ ./product
+COPY --chown=gemstone:users ./data/ ./data
+COPY --chown=gemstone:users ./conf/ ./conf
+COPY --chown=gemstone:users ./locks/ ./locks
+COPY --chown=gemstone:users ./log/ ./log
+COPY --chown=gemstone:users ./gemstone.sh ./gemstone.sh
 
-WORKDIR $HOME
+WORKDIR $GS_HOME
+USER $GS_USER
+COPY --chown=gemstone:users ./topaz_kernel/ ./topaz_kernel
 RUN echo 'set user DataCurator pass swordfish' > .topazini && \
-	/opt/conda/bin/python $HOME/topaz_kernel/install.py
-
+ 	/opt/conda/bin/python ./topaz_kernel/install.py
+	
 EXPOSE 8888
 EXPOSE 50377
-CMD ["/home/jovyan/gemstone.sh"]
+CMD ["/opt/gemstone/gemstone.sh"]
+
