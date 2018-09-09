@@ -9,13 +9,13 @@ fi
 if [ ! -d gemstone/log ]; then
 	mkdir gemstone/log
 fi
-if [ ! -f GemStone.zip ]; then
-	curl https://downloads.gemtalksystems.com/pub/GemStone64/3.4.2/GemStone64Bit3.4.2-x86_64.Linux.zip > GemStone.zip
+if [ ! -f ../GemStone.zip ]; then
+	curl https://downloads.gemtalksystems.com/pub/GemStone64/3.4.2/GemStone64Bit3.4.2-x86_64.Linux.zip > ../GemStone.zip
 fi
 if [ ! -f gemstone/product/version.txt ]; then
 	chmod -R 777 gemstone/product
 	rm -rf gemstone/product
-	unzip GemStone.zip
+	unzip ../GemStone.zip
 	mv GemStone*.Linux gemstone/product
 fi
 if [ ! -f gemstone/data/extent0.dbf ]; then
