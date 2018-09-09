@@ -20,3 +20,6 @@ run:
 
 runOnce:
 	@docker run --rm --name jupyter -p 8888:8888 -p 50377:50377 jgfoster/gs-jupyter-342
+
+tidy:
+	./tidy.sh

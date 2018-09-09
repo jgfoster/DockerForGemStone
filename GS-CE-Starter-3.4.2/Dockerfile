@@ -20,14 +20,14 @@ USER root
 
 # Configure environment
 ENV SHELL=/bin/bash \
-    NB_USER=gemstone \
-    NB_UID=1000 \
-    NB_GID=100 \
+    GS_USER=gemstone \
+    GS_UID=1001 \
+    GS_GID=100 \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     GEMSTONE_GLOBAL_DIR=/opt/gemstone
-ENV HOME=/home/$NB_USER \
+ENV HOME=/home/$GS_USER \
 	GEMSTONE=$GEMSTONE_GLOBAL_DIR/product
 ENV	PATH=$GEMSTONE/bin:$PATH \
 	GEMSTONE_EXE_CONF=$GEMSTONE_GLOBAL_DIR/conf \
@@ -39,16 +39,22 @@ ENV	PATH=$GEMSTONE/bin:$PATH \
 
 RUN groupadd wheel -g 11 && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
-    useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    useradd -m -s /bin/bash -N -u $GS_UID $GS_USER && \
     mkdir -p $GEMSTONE && \
-    chown $NB_USER:$NB_GID $GEMSTONE_GLOBAL_DIR && \
+    chown $GS_USER:$GS_GID $GEMSTONE_GLOBAL_DIR && \
     chmod g+w /etc/passwd
 
-USER $NB_UID
+USER $GS_UID
 WORKDIR $GEMSTONE_GLOBAL_DIR
 
+# copy in order of least likely to change (as well as size)
 # it seems that the copy command does not recognize environment variables
-COPY --chown=gemstone:users ./ $GEMSTONE_GLOBAL_DIR
+COPY --chown=gemstone:users ./product $HOME/gemstone/product
+COPY --chown=gemstone:users ./data $HOME/gemstone/data
+COPY --chown=gemstone:users ./conf $HOME/gemstone/conf
+COPY --chown=gemstone:users ./locks $HOME/gemstone/locks
+COPY --chown=gemstone:users ./log $HOME/gemstone/log
+COPY --chown=gemstone:users ./gemstone.sh $HOME/gemstone/gemstone.sh
 
 EXPOSE 50377
 CMD ["./gemstone.sh"]
