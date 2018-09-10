@@ -4,8 +4,13 @@
 if [ ! -d ace ]; then
 	git clone -b Smalltalk2 https://github.com/jgfoster/ace.git ace
 fi
-if [ ! -d ace/dist/src-min-noconflict ]; then
-	node ace/Makefile.dryice.js --m --nc --target ace/dist
+if [ ! -d ace/dist/ace-builds ]; then
+	node ace/Makefile.dryice.js --m --nc --target ace/dist/ace-builds
+fi
+
+# GemStone
+if [ ! -d gemstone ]; then
+	mkdir gemstone
 fi
 
 # WebGS
@@ -27,4 +32,4 @@ if [ ! -d Jasper/dist ]; then
 	cd ..
 fi
 cp -R Jasper/dist/ gemstone/htdocs
-cp Jasper/Jasper.sh Jasper/JasperGlobals.gs gemstone
+cp gemstone.sh Jasper/Jasper.sh Jasper/JasperGlobals.gs gemstone

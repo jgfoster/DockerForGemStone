@@ -20,3 +20,6 @@ fi
 if [ -d topaz_kernel ]; then
 	rm -rf topaz_kernel
 fi
+if [ -f gemstone.sh ]; then
+	rm gemstone.sh
+fi

@@ -11,3 +11,4 @@ if [ -d gemstone/topaz_kernel ]; then
 	rm -rf gemstone/topaz_kernel
 fi
 cp -r topaz_kernel gemstone/topaz_kernel
+cp gemstone.sh gemstone
