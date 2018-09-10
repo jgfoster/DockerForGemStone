@@ -56,8 +56,7 @@ COPY --chown=gemstone:users ./gemstone.sh ./gemstone.sh
 WORKDIR $GS_HOME
 USER $GS_USER
 COPY --chown=gemstone:users ./topaz_kernel/ ./topaz_kernel
-RUN echo 'set user DataCurator pass swordfish' > .topazini && \
- 	/opt/conda/bin/python ./topaz_kernel/install.py
+RUN /opt/conda/bin/python ./topaz_kernel/install.py
 	
 EXPOSE 8888
 EXPOSE 50377
