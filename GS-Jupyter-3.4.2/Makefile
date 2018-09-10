@@ -16,10 +16,10 @@ push:
 	@docker push ${NAME}
 
 run:
-	@docker run --name jupyter -p 8888:8888 -p 50377:50377 jgfoster/gs-jupyter-342
+	@docker run --detach --name jupyter -p 8888:8888 -p 50377:50377 jgfoster/gs-jupyter-342
 
 runOnce:
-	@docker run --rm --name jupyter -p 8888:8888 -p 50377:50377 jgfoster/gs-jupyter-342
+	@docker run --detach --rm --name jupyter -p 8888:8888 -p 50377:50377 jgfoster/gs-jupyter-342
 
 tidy:
 	./tidy.sh

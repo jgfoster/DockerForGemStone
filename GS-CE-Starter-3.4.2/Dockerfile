@@ -49,12 +49,12 @@ WORKDIR $GEMSTONE_GLOBAL_DIR
 
 # copy in order of least likely to change (as well as size)
 # it seems that the copy command does not recognize environment variables
-COPY --chown=gemstone:users ./product $HOME/gemstone/product
-COPY --chown=gemstone:users ./data $HOME/gemstone/data
-COPY --chown=gemstone:users ./conf $HOME/gemstone/conf
-COPY --chown=gemstone:users ./locks $HOME/gemstone/locks
-COPY --chown=gemstone:users ./log $HOME/gemstone/log
-COPY --chown=gemstone:users ./gemstone.sh $HOME/gemstone/gemstone.sh
+COPY --chown=gemstone:users ./product $GEMSTONE_GLOBAL_DIR/product
+COPY --chown=gemstone:users ./data $GEMSTONE_GLOBAL_DIR/data
+COPY --chown=gemstone:users ./conf $GEMSTONE_GLOBAL_DIR/conf
+COPY --chown=gemstone:users ./locks $GEMSTONE_GLOBAL_DIR/locks
+COPY --chown=gemstone:users ./log $GEMSTONE_GLOBAL_DIR/log
+COPY --chown=gemstone:users ./gemstone.sh $GEMSTONE_GLOBAL_DIR/gemstone.sh
 
 EXPOSE 50377
 CMD ["./gemstone.sh"]

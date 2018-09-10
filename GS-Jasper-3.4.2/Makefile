@@ -16,7 +16,10 @@ push:
 	@docker push ${NAME}
 
 run:
-	@docker run --name jasper -p 8888:8888 -p 50377:50377 jgfoster/gs-jasper-342
+	@docker run --detach --name jasper -p 8888:8888 -p 50377:50377 jgfoster/gs-jasper-342
 
 runOnce:
-	@docker run --rm --name jasper -p 8888:8888 -p 50377:50377 jgfoster/gs-jasper-342
+	@docker run --detach --rm --name jasper -p 8888:8888 -p 50377:50377 jgfoster/gs-jasper-342
+
+tidy:
+	./tidy.sh
