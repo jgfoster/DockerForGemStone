@@ -13,6 +13,17 @@ docker start -a gs342
 docker rm gs342		# remove container
 docker rmi gs342	# remove image
 ```
+For simplicity's sake, this container has the config files, the database, and the transaction logs inside the container. This makes a good demo of a throw-away playground, but it is not a "best practice" by any means. If you were to really run GemStone in a container, you should place these items outside and reference them from inside. To do so, copy the appropriate directories and create a "volume" link to them for the container:
+
+```
+cp -r gemstone/conf gemstone/data .
+docker run -dit --rm --name gs342 -p 50377:50377 \
+	-v /Users/jfoster/docker/GS-CE-Starter-3.4.2/data:/opt/gemstone/data \
+	-v /Users/jfoster/docker/GS-CE-Starter-3.4.2/conf:/opt/gemstone/conf \
+	jgfoster/gs342
+
+```
+This will remove the container when it is finished running, but the extent and tranlog will remain available outside the container.
 
 See the [documentation](https://docs.docker.com/engine/reference/commandline/run/) for details on options for run, exec, start, stop, etc.
 

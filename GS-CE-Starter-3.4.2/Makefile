@@ -19,10 +19,10 @@ push:
 	@docker push ${NAME}
 
 run:
-	@docker run --detach --name gs342 -p 50377:50377 jgfoster/gs342
+	@docker run --dit --name gs342 -p 50377:50377 jgfoster/gs342
 
 runOnce:
-	@docker run --detach --rm --name gs342 -p 50377:50377 jgfoster/gs342
+	@docker run --it --rm --name gs342 -p 50377:50377 jgfoster/gs342
 
 stop:
 	@docker stop gs342
